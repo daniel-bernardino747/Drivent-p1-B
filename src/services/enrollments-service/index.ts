@@ -1,4 +1,4 @@
-import { ViaCEPAddress } from "./../../protocols";
+import { APIResponse, ApplicationError, ViaCEPAddress } from "./../../protocols";
 import { request } from "@/utils/request";
 import { notFoundError } from "@/errors";
 import addressRepository, { CreateAddressParams } from "@/repositories/address-repository";
@@ -6,9 +6,10 @@ import enrollmentRepository, { CreateEnrollmentParams } from "@/repositories/enr
 import { exclude } from "@/utils/prisma-utils";
 import { Address, Enrollment } from "@prisma/client";
 
-async function getAddressFromCEP(cep: string): Promise<ViaCEPAddress> {
+async function getAddressFromCEP(cep: string): Promise<ViaCEPAddress | ApplicationError> {
   const result = await request.get(`https://viacep.com.br/ws/${cep}/json/`);
-  const { data } = result;
+
+  const { data } = result as APIResponse;
 
   if (!data || data.erro) {
     throw notFoundError();

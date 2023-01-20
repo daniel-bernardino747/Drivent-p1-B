@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 export type ApplicationError = {
   name: string;
   message: string;
@@ -9,6 +10,22 @@ export type ViaCEPAddress = {
   bairro: string;
   cidade: string;
   uf: string;
+};
+
+export type ViaCEPAddressAPI = {
+  logradouro: string;
+  complemento: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+};
+
+export type APIError = {
+  erro: string;
+};
+
+export type APIResponse = AxiosResponse & {
+  data: ViaCEPAddressAPI & APIError;
 };
 
 export type RequestError = {
