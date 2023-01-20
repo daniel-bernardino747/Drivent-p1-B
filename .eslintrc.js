@@ -16,34 +16,34 @@ module.exports = {
         alwaysTryTypes: true,
       },
     },
-    "extends": ["plugin:boundaries/recommended"],
+    extends: ["plugin:boundaries/recommended"],
     "boundaries/ignore": ["**/tests/"],
     "boundaries/elements": [
       {
-        "type": "controllers",
-        "pattern": "src/controllers"
+        type: "controllers",
+        pattern: "src/controllers",
       },
       {
-        "type": "services",
-        "pattern": "src/services",
+        type: "services",
+        pattern: "src/services",
       },
       {
-        "type": "middlewares",
-        "pattern": "src/middlewares",
+        type: "middlewares",
+        pattern: "src/middlewares",
       },
       {
-        "type": "repositories",
-        "pattern": "src/repositories",
+        type: "repositories",
+        pattern: "src/repositories",
       },
       {
-        "type": "routers",
-        "pattern": "src/routers",
+        type: "routers",
+        pattern: "src/routers",
       },
       {
-        "type": "config",
-        "pattern": "src/config",
-      } 
-    ]
+        type: "config",
+        pattern: "src/config",
+      },
+    ],
   },
   rules: {
     indent: ["error", 2],
@@ -81,31 +81,34 @@ module.exports = {
     "@typescript-eslint/type-annotation-spacing": ["error", { after: true, before: false }],
     "arrow-spacing": ["error", { before: true, after: true }],
     "no-console": "warn",
-    "boundaries/element-types": [2, {
-      "default": "disallow",
-      "message": "${file.type} não podem importar ${dependency.type}",
-      "rules": [
-        {
-          "from": ["controllers"],
-          "allow": ["services", "middlewares"],
-        },
-        {
-          "from": ["middlewares"],
-          "allow": ["services", "controllers", "config"],
-        },
-        {
-          "from": ["services"],
-          "allow": ["repositories"],
-        },
-        {
-          "from": ["routers"],
-          "allow": ["controllers", "middlewares"],
-        },
-        {
-          "from": ["repositories"],
-          "allow": ["config"],
-        },
-      ]
-    }]
-  }
+    "boundaries/element-types": [
+      2,
+      {
+        default: "disallow",
+        message: "${file.type} não podem importar ${dependency.type}",
+        rules: [
+          {
+            from: ["controllers"],
+            allow: ["services", "middlewares"],
+          },
+          {
+            from: ["middlewares"],
+            allow: ["services", "controllers", "config"],
+          },
+          {
+            from: ["services"],
+            allow: ["repositories"],
+          },
+          {
+            from: ["routers"],
+            allow: ["controllers", "middlewares"],
+          },
+          {
+            from: ["repositories"],
+            allow: ["config"],
+          },
+        ],
+      },
+    ],
+  },
 };
