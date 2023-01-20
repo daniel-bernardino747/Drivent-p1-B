@@ -7,9 +7,7 @@ import { exclude } from "@/utils/prisma-utils";
 import { Address, Enrollment } from "@prisma/client";
 
 async function getAddressFromCEP(cep: string): Promise<ViaCEPAddress | ApplicationError> {
-  const result = await request.get(`https://viacep.com.br/ws/${cep}/json/`);
-
-  const { data } = result as APIResponse;
+  const { data } = (await request.get(`https://viacep.com.br/ws/${cep}/json/`)) as APIResponse;
 
   if (!data || data.erro) {
     throw notFoundError();
