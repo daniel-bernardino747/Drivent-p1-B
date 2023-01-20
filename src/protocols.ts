@@ -27,7 +27,7 @@ export type ViaCEPAddressAPI = {
 };
 
 export type APIError = {
-  erro: string;
+  erro: boolean;
 };
 
 export interface APIResponse extends AxiosResponse {
