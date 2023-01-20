@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+
 export type ApplicationError = {
   name: string;
   message: string;
@@ -24,9 +25,9 @@ export type APIError = {
   erro: string;
 };
 
-export type APIResponse = AxiosResponse & {
+export interface APIResponse extends AxiosResponse {
   data: ViaCEPAddressAPI & APIError;
-};
+}
 
 export type RequestError = {
   status: number;
