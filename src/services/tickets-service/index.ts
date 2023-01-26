@@ -9,6 +9,13 @@ async function getTicket(id: number) {
 
   return ticket;
 }
+
+async function getAllTicketWithType() {
+  const ticketsTypes = await ticketRepository.findAllTicketWithType();
+  if (!ticketsTypes) return [];
+
+  return ticketsTypes;
+}
 async function createTicket({ ticketTypeId, userId }: CreatedTicket): Promise<Ticket> {
   const enrollment = await ticketRepository.checkEnrollment(userId);
 
@@ -22,6 +29,7 @@ async function createTicket({ ticketTypeId, userId }: CreatedTicket): Promise<Ti
 const ticketsService = {
   getTicket,
   createTicket,
+  getAllTicketWithType,
 };
 
 type CreatedTicket = {

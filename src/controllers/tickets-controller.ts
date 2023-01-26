@@ -1,3 +1,4 @@
+// import { getTicketsTypes } from "@/controllers";
 import { AuthenticatedRequest } from "@/middlewares";
 import ticketsService from "@/services/tickets-service";
 import { Response } from "express";
@@ -10,6 +11,16 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
     const tickets = await ticketsService.getTicket(userId);
 
     return res.status(httpStatus.OK).send(tickets);
+  } catch (error) {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+}
+
+export async function getTicketsTypes(req: AuthenticatedRequest, res: Response) {
+  try {
+    const ticketsTypes = await ticketsService.getAllTicketWithType();
+
+    return res.status(httpStatus.OK).send(ticketsTypes);
   } catch (error) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }

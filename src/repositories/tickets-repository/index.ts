@@ -42,10 +42,15 @@ async function checkEnrollment(userId: number) {
   });
 }
 
+async function findAllTicketWithType() {
+  return prisma.ticketType.findMany();
+}
+
 const ticketRepository = {
   findTicketByUserId,
   create,
   checkEnrollment,
+  findAllTicketWithType,
 };
 
 enum TicketStatus {
