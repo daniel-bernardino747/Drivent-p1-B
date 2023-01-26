@@ -14,3 +14,19 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
+
+export async function postCreateTicket(req: AuthenticatedRequest, res: Response) {
+  try {
+    const ticketReserved = await ticketsService.createTicket({
+      ...req.body,
+      userId: req.userId,
+    });
+
+    return res.status(httpStatus.CREATED).send(ticketReserved);
+  } catch (error) {
+    if (error.name === "NotFoundError") {
+      return res.status(httpStatus.NOT_FOUND).send(error.message);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
