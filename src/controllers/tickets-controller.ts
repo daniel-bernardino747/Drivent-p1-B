@@ -1,4 +1,3 @@
-// import { getTicketsTypes } from "@/controllers";
 import { AuthenticatedRequest } from "@/middlewares";
 import ticketsService from "@/services/tickets-service";
 import { Response } from "express";
