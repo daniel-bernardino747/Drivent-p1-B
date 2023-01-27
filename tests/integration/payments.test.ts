@@ -78,6 +78,8 @@ describe("GET /payments", () => {
       const otherUserEnrollment = await createEnrollmentWithAddress(otherUser);
       const ticket = await createTicket(otherUserEnrollment.id, ticketType.id, TicketStatus.RESERVED);
 
+      await createPayment(ticket.id, ticketType.price);
+
       const response = await server.get(`/payments?ticketId=${ticket.id}`).set("Authorization", `Bearer ${token}`);
 
       expect(response.status).toEqual(httpStatus.UNAUTHORIZED);
