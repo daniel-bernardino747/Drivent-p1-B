@@ -21,3 +21,22 @@ export async function getPayments(req: AuthenticatedRequest, res: Response) {
     return res.sendStatus(httpStatus.BAD_REQUEST).send(error.message);
   }
 }
+
+export async function postCreatePaymentProcess(req: AuthenticatedRequest, res: Response) {
+  try {
+    const paymentPaid = await paymentsService.createPaymentProcess({
+      ...req.body,
+      userId: req.userId,
+    });
+
+    return res.status(httpStatus.OK).send(paymentPaid);
+  } catch (error) {
+    if (error.name === "UnauthorizedError") {
+      return res.status(httpStatus.UNAUTHORIZED).send(error.message);
+    }
+    if (error.name === "NotFoundError" || error.name === "Error") {
+      return res.status(httpStatus.NOT_FOUND).send(error.message);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}

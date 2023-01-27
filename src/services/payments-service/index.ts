@@ -1,7 +1,9 @@
+import ticketRepository from "@/repositories/tickets-repository";
 import { notFoundError, unauthorizedError } from "@/errors";
 import paymentRepository from "@/repositories/payment-repository";
+import { Payment } from "@prisma/client";
 
-async function getPayments(ticketId: number, userId: number) {
+async function getPayments(ticketId: number, userId: number): Promise<Payment> {
   if (!ticketId) throw new Error("Ticket id is required");
 
   const payment = await paymentRepository.findPayments(ticketId);
@@ -13,8 +15,26 @@ async function getPayments(ticketId: number, userId: number) {
   return payment;
 }
 
+async function createPaymentProcess(paymentProcess: CreatePaymentProcessSchema & { userId: number }): Promise<Payment> {
+  const ticketUser = await ticketRepository.findTicketByIdAndUserId(paymentProcess.ticketId, paymentProcess.userId);
+
+  const updatedTicket = await ticketRepository.updateStatusTicket(paymentProcess.ticketId);
+
+  const paymentPaid = await paymentRepository.createProcess({
+    ...paymentProcess,
+    value: updatedTicket.TicketType.price,
+  });
+
+  if (!updatedTicket) throw notFoundError();
+  if (!ticketUser) throw unauthorizedError();
+  if (!paymentPaid) throw notFoundError();
+
+  return paymentPaid;
+}
+
 const paymentsService = {
   getPayments,
+  createPaymentProcess,
 };
 
 export type CreatePaymentProcessSchema = {
