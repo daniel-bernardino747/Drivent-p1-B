@@ -17,4 +17,15 @@ const paymentsService = {
   getPayments,
 };
 
+export type CreatePaymentProcessSchema = {
+  ticketId: number;
+  cardData: {
+    issuer: string;
+    number: number;
+    name: string;
+    expirationDate: Date;
+    cvv: number;
+  };
+};
+
 export default paymentsService;
