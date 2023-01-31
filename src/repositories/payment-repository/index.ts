@@ -1,49 +1,28 @@
 import { prisma } from "@/config";
+import { Payment } from "@prisma/client";
 
-async function findPayments(ticketId: number) {
+async function findPaymentByTicketId(ticketId: number) {
   return prisma.payment.findFirst({
     where: {
-      Ticket: {
-        id: ticketId,
-      },
+      ticketId,
     },
   });
 }
 
-async function findPaymentsByUserId(ticketId: number, userId: number) {
-  return prisma.payment.count({
-    where: {
-      Ticket: {
-        AND: [{ id: ticketId }, { Enrollment: { User: { id: userId } } }],
-      },
-    },
-  });
-}
-
-async function createProcess({ ticketId, value, cardData: { issuer, number } }: CreatePaymentProcessSchema) {
+async function createPayment(ticketId: number, params: PaymentParams) {
   return prisma.payment.create({
     data: {
       ticketId,
-      cardIssuer: issuer,
-      cardLastDigits: number.toString().slice(-4),
-      value,
+      ...params,
     },
   });
 }
 
-const paymentRepository = {
-  findPayments,
-  findPaymentsByUserId,
-  createProcess,
-};
+export type PaymentParams = Omit<Payment, "id" | "createdAt" | "updatedAt">;
 
-type CreatePaymentProcessSchema = {
-  value: number;
-  ticketId: number;
-  cardData: {
-    issuer: string;
-    number: number;
-  };
+const paymentRepository = {
+  findPaymentByTicketId,
+  createPayment,
 };
 
 export default paymentRepository;

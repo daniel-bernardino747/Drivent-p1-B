@@ -1,42 +1,53 @@
-import { Ticket } from "@prisma/client";
 import { notFoundError } from "@/errors";
-import ticketRepository from "@/repositories/tickets-repository";
+import ticketRepository from "@/repositories/ticket-repository";
+import enrollmentRepository from "@/repositories/enrollment-repository";
+import { TicketStatus } from "@prisma/client";
 
-async function getTicket(id: number) {
-  const ticket = await ticketRepository.findTicketByUserId(id);
+async function getTicketTypes() {
+  const ticketTypes = await ticketRepository.findTicketTypes();
 
-  if (!ticket) throw notFoundError();
+  if (!ticketTypes) {
+    throw notFoundError();
+  }
+  return ticketTypes;
+}
+
+async function getTicketByUserId(userId: number) {
+  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+  if (!enrollment) {
+    throw notFoundError();
+  }
+  const ticket = await ticketRepository.findTicketByEnrollmentId(enrollment.id);
+  if (!ticket) {
+    throw notFoundError();
+  }
 
   return ticket;
 }
 
-async function getAllTicketWithType() {
-  const ticketsTypes = await ticketRepository.findAllTicketWithType();
-  if (!ticketsTypes) return [];
+async function createTicket(userId: number, ticketTypeId: number) {
+  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+  if (!enrollment) {
+    throw notFoundError();
+  }
 
-  return ticketsTypes;
+  const ticketData = {
+    ticketTypeId,
+    enrollmentId: enrollment.id,
+    status: TicketStatus.RESERVED,
+  };
+
+  await ticketRepository.createTicket(ticketData);
+
+  const ticket = await ticketRepository.findTicketByEnrollmentId(enrollment.id);
+
+  return ticket;
 }
-async function createTicket({ ticketTypeId, userId }: CreatedTicket): Promise<Ticket> {
-  const enrollment = await ticketRepository.checkEnrollment(userId);
 
-  if (!enrollment) throw notFoundError();
-
-  const ticketCreated = await ticketRepository.create(ticketTypeId, userId);
-
-  return ticketCreated;
-}
-
-const ticketsService = {
-  getTicket,
+const ticketService = {
+  getTicketTypes,
+  getTicketByUserId,
   createTicket,
-  getAllTicketWithType,
 };
 
-type CreatedTicket = {
-  ticketTypeId: number;
-  userId: number;
-};
-
-export type BodyCreatedTicket = Omit<CreatedTicket, "userId">;
-
-export default ticketsService;
+export default ticketService;
