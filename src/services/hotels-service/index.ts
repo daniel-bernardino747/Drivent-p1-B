@@ -3,16 +3,17 @@ import { ApplicationError } from "@/protocols";
 import hotelRepository from "@/repositories/hotel-repository";
 
 async function getHotels(userId: number) {
-  verifyHotel(userId);
+  await verifyHotel(userId);
 
   const hotels = await hotelRepository.findHotels();
-  if (!hotels) throw notFoundError();
+
+  if (!hotels.length) throw notFoundError();
 
   return hotels;
 }
 
 async function getHotel(hotelId: number, userId: number) {
-  verifyHotel(userId);
+  await verifyHotel(userId);
 
   const hotel = await hotelRepository.findOneHotel(hotelId);
   if (!hotel) throw notFoundError();
@@ -22,6 +23,7 @@ async function getHotel(hotelId: number, userId: number) {
 
 async function verifyHotel(userId: number): Promise<void | ApplicationError> {
   const existingPaidTicket = await hotelRepository.findUserPaidTicket(userId);
+
   if (!existingPaidTicket) throw notFoundError();
 
   const notPaid = existingPaidTicket.status !== "PAID";
