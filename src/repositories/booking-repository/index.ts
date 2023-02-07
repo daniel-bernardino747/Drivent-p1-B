@@ -21,6 +21,17 @@ async function createBooking(roomId: number, userId: number) {
   });
 }
 
+async function putBooking(bookingId: number, roomId: number) {
+  return prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: {
+      roomId: roomId,
+    },
+  });
+}
+
 async function findRoom(id: number) {
   return prisma.room.findUnique({
     where: {
@@ -35,6 +46,7 @@ async function findRoom(id: number) {
 const bookingRepository = {
   findBookingById,
   createBooking,
+  putBooking,
   findRoom,
 };
 

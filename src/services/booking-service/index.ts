@@ -27,9 +27,28 @@ async function postBooking(roomId: number, userId: number) {
   return { bookingId };
 }
 
+async function putBooking(roomId: number, bookingId: number, userId: number) {
+  const haveBooking = await bookingRepository.findBookingById(userId);
+  if (haveBooking) throw noVacanciesAvailableError();
+
+  const isUserBooking = haveBooking.id === bookingId;
+  if (!isUserBooking) throw noVacanciesAvailableError();
+
+  const room = await bookingRepository.findRoom(roomId);
+  if (!room) throw notFoundError();
+
+  const noVacanciesInRoom = room.capacity === room.Booking.length;
+  if (noVacanciesInRoom) throw noVacanciesAvailableError();
+
+  const { id: newBookingId } = await bookingRepository.putBooking(bookingId, roomId);
+
+  return { newBookingId };
+}
+
 const bookingService = {
   getBookingByUserId,
   postBooking,
+  putBooking,
 };
 
 export default bookingService;
