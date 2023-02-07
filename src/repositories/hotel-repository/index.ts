@@ -4,8 +4,8 @@ async function findHotels() {
   return prisma.hotel.findMany();
 }
 
-async function findOneHotel(hotelId: number) {
-  return prisma.hotel.findUnique({
+async function findRoomsByHotelId(hotelId: number) {
+  return prisma.hotel.findFirst({
     where: {
       id: hotelId,
     },
@@ -15,24 +15,9 @@ async function findOneHotel(hotelId: number) {
   });
 }
 
-async function findUserPaidTicket(userId: number) {
-  return prisma.ticket.findFirst({
-    where: {
-      Enrollment: {
-        userId,
-      },
-    },
-    include: {
-      Enrollment: true,
-      TicketType: true,
-    },
-  });
-}
-
 const hotelRepository = {
   findHotels,
-  findOneHotel,
-  findUserPaidTicket,
+  findRoomsByHotelId,
 };
 
 export default hotelRepository;
