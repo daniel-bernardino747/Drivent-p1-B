@@ -51,6 +51,9 @@ export async function putBooking(req: AuthenticatedRequest, res: Response) {
     if (error.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }
+    if (error.name === "UnauthorizedError") {
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
+    }
     if (error.name === "NoVacanciesAvailableError") {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
