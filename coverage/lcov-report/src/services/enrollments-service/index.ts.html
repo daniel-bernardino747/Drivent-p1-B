@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.33% </span>
+                <span class="strong">93.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/30</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>4/8</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>28/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">75% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>6/8</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>5/5</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">96.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/28</span>
+                <span class='fraction'>27/28</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -182,39 +182,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -268,10 +268,10 @@ async function getOneWithAddressByUserId(userId: number): Promise&lt;GetOneWithA
 &nbsp;
   if (!enrollmentWithAddress) throw notFoundError();
 &nbsp;
-  const [firstAddress] = <span class="cstat-no" title="statement not covered" >enrollmentWithAddress.Address;</span>
-  const address = <span class="cstat-no" title="statement not covered" >getFirstAddress(firstAddress);</span>
+  const [firstAddress] = enrollmentWithAddress.Address;
+  const address = getFirstAddress(firstAddress);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
+  return {
     ...exclude(enrollmentWithAddress, "userId", "createdAt", "updatedAt", "Address"),
     ...(!!address &amp;&amp; { address }),
   };
@@ -279,10 +279,10 @@ async function getOneWithAddressByUserId(userId: number): Promise&lt;GetOneWithA
 &nbsp;
 type GetOneWithAddressByUserIdResult = Omit&lt;Enrollment, "userId" | "createdAt" | "updatedAt"&gt;;
 &nbsp;
-function <span class="fstat-no" title="function not covered" >getFirstAddress(</span>firstAddress: Address): GetAddressResult {
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!firstAddress) <span class="cstat-no" title="statement not covered" >return null;</span></span>
+function getFirstAddress(firstAddress: Address): GetAddressResult {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!firstAddress) <span class="cstat-no" title="statement not covered" >return null;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return exclude(firstAddress, "createdAt", "updatedAt", "enrollmentId");</span>
+  return exclude(firstAddress, "createdAt", "updatedAt", "enrollmentId");
 }
 &nbsp;
 type GetAddressResult = Omit&lt;Address, "createdAt" | "updatedAt" | "enrollmentId"&gt;;
@@ -300,7 +300,7 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
 &nbsp;
   const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, "userId"));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  await addressRepository.upsert(newEnrollment.id, address, address);</span>
+  await addressRepository.upsert(newEnrollment.id, address, address);
 }
 &nbsp;
 function getAddressForUpsert(address: CreateAddressParams) {
@@ -328,7 +328,7 @@ export default enrollmentsService;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Feb 08 2023 15:45:03 GMT-0300 (Brasilia Standard Time)
+                at Wed Feb 08 2023 16:06:55 GMT-0300 (Brasilia Standard Time)
             </div>
         <script src="../../../prettify.js"></script>
         <script>
